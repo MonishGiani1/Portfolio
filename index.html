@@ -7,503 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-primary: #0a0e14;
-            --bg-secondary: #12161f;
-            --bg-tertiary: #1a1f2e;
-            --text-primary: #e6edf3;
-            --text-secondary: #8b949e;
-            --accent-primary: #00ff9f;
-            --accent-secondary: #00d4ff;
-            --accent-tertiary: #ff0080;
-            --border: #30363d;
-            --shadow: rgba(0, 255, 159, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'JetBrains Mono', monospace;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Animated grid background */
-        .grid-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(var(--border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 50px 50px;
-            opacity: 0.3;
-            z-index: -1;
-            animation: gridScroll 20s linear infinite;
-        }
-
-        @keyframes gridScroll {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(50px); }
-        }
-
-        /* Gradient orbs */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.15;
-            z-index: -1;
-            animation: float 20s ease-in-out infinite;
-        }
-
-        .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: var(--accent-primary);
-            top: -250px;
-            right: -250px;
-        }
-
-        .orb-2 {
-            width: 400px;
-            height: 400px;
-            background: var(--accent-secondary);
-            bottom: -200px;
-            left: -200px;
-            animation-delay: -10s;
-        }
-
-        .orb-3 {
-            width: 300px;
-            height: 300px;
-            background: var(--accent-tertiary);
-            top: 50%;
-            left: 50%;
-            animation-delay: -5s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-30px, 30px) rotate(240deg); }
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Header/Nav */
-        header {
-            position: sticky;
-            top: 0;
-            background: rgba(10, 14, 20, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 0;
-            z-index: 100;
-            animation: slideDown 0.6s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-primary);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            padding: 4rem 0;
-        }
-
-        .hero-content {
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .terminal-prompt {
-            font-size: 0.9rem;
-            color: var(--accent-primary);
-            margin-bottom: 1rem;
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        h1 {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            max-width: 600px;
-        }
-
-        .accent-text {
-            color: var(--accent-primary);
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 0.9rem 2rem;
-            border: none;
-            border-radius: 6px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            box-shadow: 0 0 20px var(--shadow);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 30px var(--shadow);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--accent-primary);
-            background: rgba(0, 255, 159, 0.1);
-        }
-
-        /* Section Styles */
-        section {
-            padding: 6rem 0;
-            animation: fadeInUp 0.8s ease-out both;
-        }
-
-        section:nth-child(even) {
-            animation-delay: 0.1s;
-        }
-
-        .section-header {
-            margin-bottom: 3rem;
-        }
-
-        .section-label {
-            font-size: 0.85rem;
-            color: var(--accent-primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 0.5rem;
-        }
-
-        h2 {
-            font-family: 'Syne', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        /* Projects Grid */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-primary);
-            box-shadow: 0 10px 40px rgba(0, 255, 159, 0.1);
-        }
-
-        .project-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 1rem;
-        }
-
-        .project-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .project-year {
-            font-size: 0.85rem;
-            color: var(--accent-primary);
-        }
-
-        .project-description {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .tech-tag {
-            padding: 0.3rem 0.8rem;
-            background: rgba(0, 255, 159, 0.1);
-            border: 1px solid rgba(0, 255, 159, 0.3);
-            border-radius: 4px;
-            font-size: 0.75rem;
-            color: var(--accent-primary);
-        }
-
-        /* Skills Section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .skill-category {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .skill-category:hover {
-            border-color: var(--accent-secondary);
-            background: var(--bg-tertiary);
-        }
-
-        .skill-category h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.2rem;
-            color: var(--accent-secondary);
-            margin-bottom: 1rem;
-        }
-
-        .skill-list {
-            list-style: none;
-        }
-
-        .skill-list li {
-            padding: 0.5rem 0;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-
-        .skill-list li::before {
-            content: '▹';
-            position: absolute;
-            left: 0;
-            color: var(--accent-primary);
-        }
-
-        /* Contact Section */
-        .contact-content {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 3rem;
-            max-width: 700px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .contact-text {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .social-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-        }
-
-        .social-link:hover {
-            color: var(--accent-primary);
-            border-color: var(--accent-primary);
-            background: rgba(0, 255, 159, 0.05);
-        }
-
-        /* Footer */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 2rem 0;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                gap: 1rem;
-            }
-
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .projects-grid,
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                text-align: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="grid-bg"></div>
@@ -511,55 +15,61 @@
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
 
-    <header>
+    <header class="main-header">
         <div class="container">
-            <nav>
-                <div class="logo">~/Welcome</div>
-                <ul class="nav-links">
-                    <li><a href="#about">about</a></li>
-                    <li><a href="#projects">projects</a></li>
-                    <li><a href="#skills">skills</a></li>
-                    <li><a href="#contact">contact</a></li>
-                </ul>
-            </nav>
+            <div class="header-content">
+                <p class="header-subtitle">Welcome, what would you like to know about me?</p>
+                <div class="header-underline"></div>
+            </div>
         </div>
     </header>
 
-    <main>
-        <section class="hero">
+    <nav class="tab-navigation">
+        <div class="container">
+            <ul class="tab-links">
+                <li><button class="tab-btn active" data-tab="overview">OVERVIEW</button></li>
+                <li><button class="tab-btn" data-tab="projects">PROJECTS</button></li>
+                <li><button class="tab-btn" data-tab="skills">SKILLS</button></li>
+                <li><button class="tab-btn" data-tab="about">ABOUT</button></li>
+                <li><button class="tab-btn" data-tab="contact">CONTACT</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="tab-content-wrapper">
+        <section id="overview" class="tab-content active">
             <div class="container">
+                
                 <div class="hero-content">
                     <div class="terminal-prompt">$ whoami ▊</div>
-                    <h1>Monish Haresh Giani</h1>
+                    <h2 class="hero-name">Monish Haresh Giani</h2>
                     <p class="hero-subtitle">
-                        Computer Science student building <span class="accent-text">elegant solutions</span> 
-                        to complex problems. Passionate about algorithms, systems design, and creating 
-                        meaningful software.
+                        Hello, I'm a computer science student at Binus International University. Passionate about algorithms, systems design, and breaking into software. Nothing malicious of course, its only in the pursuit of implementing better security measures so we would never have to worry about those pesky hackers stealing our data ;)
                     </p>
                     <div class="cta-buttons">
-                        <a href="#projects" class="btn btn-primary">View Projects</a>
-                        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                        <button class="btn btn-primary" onclick="switchTab('projects')">View Projects</button>
+                        <button class="btn btn-secondary" onclick="switchTab('contact')">Get In Touch</button>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">PROJECTS COMPLETED</div>
+                        <div class="stat-value">12</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">TECHNOLOGIES MASTERED</div>
+                        <div class="stat-value">15+</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">YEARS CODING</div>
+                        <div class="stat-value">3</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="about">
-            <div class="container">
-                <div class="section-header">
-                    <div class="section-label">$ cat about.txt</div>
-                    <h2>About Me</h2>
-                </div>
-                <p style="max-width: 700px; color: var(--text-secondary); font-size: 1.05rem;">
-                    I'm a Computer Science student at <span class="accent-text">BINUS University</span> 
-                    with a deep interest in software engineering, web development, and cybersecurity. 
-                    I love tackling challenging problems and learning new technologies. When I'm not coding, 
-                    you can find me reading tech blogs, or exploring new frameworks.
-                </p>
-            </div>
-        </section>
-
-        <section id="projects">
+        <section id="projects" class="tab-content">
             <div class="container">
                 <div class="section-header">
                     <div class="section-label">$ ls projects/</div>
@@ -633,8 +143,6 @@
                         </div>
                     </div>
 
-                    
-
                     <div class="project-card">
                         <div class="project-header">
                             <h3 class="project-title">Library Management System</h3>
@@ -652,7 +160,7 @@
             </div>
         </section>
 
-        <section id="skills">
+        <section id="skills" class="tab-content">
             <div class="container">
                 <div class="section-header">
                     <div class="section-label">$ cat skills.json</div>
@@ -666,8 +174,7 @@
                             <li>JavaScript/TypeScript</li>
                             <li>Java</li>
                             <li>C</li>
-                            <li>Go</li>
-                            <li>SQL</li>
+                                <li>SQL</li>
                         </ul>
                     </div>
 
@@ -676,12 +183,12 @@
                         <ul class="skill-list">
                             <li>React / Next.js</li>
                             <li>Node.js / Express</li>
-                            <li>Django / Flask</li>
                             <li>Docker</li>
                             <li>Git / GitHub Actions</li>
                             <li>Azure Foundations</li>
                             <li>Burp Suite</li>
                             <li>Nmap</li>
+                            <li>Python / Bash Automation Scripting</li>
                         </ul>
                     </div>
 
@@ -693,7 +200,6 @@
                             <li>Database Management</li>
                             <li>Machine Learning</li>
                             <li>CI/CD Pipelines</li>
-                            <li>Agile Development</li>
                             <li>Penetration Testing</li>
                         </ul>
                     </div>
@@ -701,7 +207,32 @@
             </div>
         </section>
 
-        <section id="contact">
+        <section id="about" class="tab-content">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">$ cat about.txt</div>
+                    <h2>About Me</h2>
+                </div>
+                <div class="about-content">
+                    <p>
+                        I'm a Computer Science student at <span class="accent-text">BINUS University</span> 
+                        with a deep interest in web security. 
+                        I love tackling challenging problems and learning new technologies. When I'm not coding, 
+                        you can find me reading tech blogs, or exploring new frameworks.
+                    </p>
+                    <p>
+                        My journey in computer science started with curiosity about how software works, 
+                        and has evolved into a passion for designing proper security measures. I'm 
+                        particularly interested in backend systems, API design, and security best practices.
+                    </p>
+                    <p>
+                        Currently, I am undergoing Portswigger Academy in order to further expand my penetration testing skills, as well as learning the ins and outs of Linux and older Windows Operating Systems.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="tab-content">
             <div class="container">
                 <div class="section-header">
                     <div class="section-label">$ connect</div>
@@ -713,15 +244,41 @@
                         discussing new projects or collaboration ideas. Feel free to reach out!
                     </p>
                     <div class="social-links">
-                        <a href="/cdn-cgi/l/email-protection#84fdebf1f6aae1e9e5ede8c4e1fce5e9f4e8e1aae7ebe9" class="social-link">Email</a>
-                        <a href="https://github.com/MonishGiani1" class="social-link">GitHub</a>
-                        <a href="https://www.linkedin.com/in/monish-giani-8b10243a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-link">LinkedIn</a>
-                        <a href="https://line.me/ti/p/CbFPmhJUC3" class="social-link">Line</a>
+                        <a href="https://github.com/MonishGiani1" class="social-link" target="_blank">GitHub</a>
+                        <a href="https://www.linkedin.com/in/monish-giani-8b10243a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-link" target="_blank">LinkedIn</a>
+                        <a href="https://line.me/ti/p/CbFPmhJUC3" class="social-link" target="_blank">Line</a>
                     </div>
-                    <a href="/cdn-cgi/l/email-protection#9ce5f3e9eeb2f9f1fdf5f0dcf9e4fdf1ecf0f9b2fff3f1" class="btn btn-primary">Say Hello</a>
                 </div>
             </div>
         </section>
     </main>
 
- 
+
+
+    <script>
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        function switchTab(tabName) {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            const selectedButton = document.querySelector(`[data-tab="${tabName}"]`);
+            const selectedContent = document.getElementById(tabName);
+
+            if (selectedButton && selectedContent) {
+                selectedButton.classList.add('active');
+                selectedContent.classList.add('active');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                switchTab(button.dataset.tab);
+            });
+        });
+    </script>
+</body>
+</html>
